@@ -1,9 +1,14 @@
 /* GET 'Home' page */
 const homelist = (req, res) => {
-  res.render('locations-list', { 
-    title: 'Loc8r - Find a Place',
-    locations: [
-      {
+  res.render('locations-list', {
+    title: 'Loc8r - find a place to work with wifi',
+    pageHeader: {
+      title: 'Loc8r',
+      strapline: 'Find places to work with wifi near you!'
+    },
+    sidebar: "Looking for wifi and a seat? Loc8r helps you find places to work when out and about. Perhaps with coffee, cake or a pint? Let Loc8r help you find the place you're looking for.",
+    locations: [{
+        id: 'starcups',
         name: 'Starcups',
         address: '125 High Street, Reading, RG6 1PS',
         rating: 3,
@@ -11,6 +16,7 @@ const homelist = (req, res) => {
         distance: '100m'
       },
       {
+        id: 'cafe-hero',
         name: 'Cafe Hero',
         address: '125 High Street, Reading, RG6 1PS',
         rating: 4,
@@ -18,9 +24,10 @@ const homelist = (req, res) => {
         distance: '200m'
       },
       {
+        id: 'burger-queen',
         name: 'Burger Queen',
         address: '125 High Street, Reading, RG6 1PS',
-        rating: 3,
+        rating: 2,
         facilities: ['Food', 'Premium wifi'],
         distance: '500m'
       }
@@ -29,8 +36,6 @@ const homelist = (req, res) => {
 };
 /* GET 'Location info' page */
 const locationInfo = (req, res) => {
-  const locationId = req.params.locationid;
-
   const locations = {
     'starcups': {
       name: 'Starcups',
@@ -81,36 +86,18 @@ const locationInfo = (req, res) => {
     }
   };
 
-  // Direct location lookup - ensure exact key matching
-  let location = null;
+  const locationId = req.params.locationid;
+  const location = locations[locationId];
 
-  // Try exact match first
-  if (locations[locationId]) {
-    location = locations[locationId];
+  if (location) {
+    res.render('location-info', {
+      title: location.name,
+      location: location
+    });
+  } else {
+    // simple redirect for now
+    res.redirect('/');
   }
-  // Try with lowercase
-  else if (locations[locationId.toLowerCase()]) {
-    location = locations[locationId.toLowerCase()];
-  }
-  // Try with spaces instead of hyphens (for cafe-hero -> cafe hero)
-  else {
-    const withSpaces = locationId.replace(/-/g, ' ');
-    if (locations[withSpaces]) {
-      location = locations[withSpaces];
-    }
-  }
-
-  // Default fallback
-  if (!location) {
-    location = locations['starcups'];
-  }
-
-  console.log('DEBUG - Requested ID:', locationId, 'Found location:', location.name);
-
-  res.render('location-info', {
-    title: location.name,
-    location: location
-  });
 };
 /* GET 'Add review' page */
 const addReview = (req, res) => {
