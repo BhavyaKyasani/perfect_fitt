@@ -1,9 +1,13 @@
  const mongoose = require('mongoose');
- const dbURI = 'mongodb://localhost/Loc8r';
- mongoose.connect(dbURI, {useNewUrlParser: true});
- mongoose.connection.on('connected', () => {
-  console.log(`Mongoose connected to ${dbURI}`);
- });
+let dbURI = 'mongodb://localhost/Loc8r';
+if (process.env.NODE_ENV === 'production') {
+  dbURI = process.env.DB_URI;
+}
+mongoose.connect(dbURI, {useNewUrlParser: true});
+
+mongoose.connection.on('connected', () => {
+ console.log(`Mongoose connected to ${dbURI}`);
+});
  mongoose.connection.on('error', err => {
   console.log(`Mongoose connection error: ${err}`);
  });
