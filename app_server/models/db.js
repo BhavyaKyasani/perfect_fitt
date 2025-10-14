@@ -1,11 +1,7 @@
  const mongoose = require('mongoose');
 let dbURI = 'mongodb://localhost/Loc8r';
 if (process.env.NODE_ENV === 'production') {
-  dbURI = process.env.MONGODB_URI || process.env.DB_URI;
-  if (!dbURI) {
-    console.error('ERROR: MONGODB_URI or DB_URI environment variable not set for production environment.');
-    process.exit(1);
-  }
+  dbURI = 'mongodb+srv://kyasanibhavya23:<db_password>@cluster0.eo0lmbb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 }
 mongoose.connect(dbURI);
 
