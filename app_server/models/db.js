@@ -1,9 +1,9 @@
  const mongoose = require('mongoose');
 let dbURI = 'mongodb://localhost/Loc8r';
 if (process.env.NODE_ENV === 'production') {
-  dbURI = process.env.DB_URI;
+  dbURI = process.env.MONGODB_URI || process.env.DB_URI;
   if (!dbURI) {
-    console.error('ERROR: DB_URI environment variable not set for production environment.');
+    console.error('ERROR: MONGODB_URI or DB_URI environment variable not set for production environment.');
     process.exit(1);
   }
 }
