@@ -83,5 +83,19 @@
  body {
   font-family: "Cabin", Arial, sans-serif;
   color: #fff;
-  background-color: #6a476d;
- } 
+  background: linear-gradient(135deg, #764ba2 0%, #764ba2 100%);
+  min-height: 100vh;
+ }
+
+ /* Star Rating Styles */
+ .fa-star {
+  color: #ffc107;
+  margin-right: 2px;
+  font-size: 14px;
+ }
+ .far.fa-star {
+  color: #6c757d;
+ }
+ .fas.fa-star {
+  color: #ffc107;
+ }
