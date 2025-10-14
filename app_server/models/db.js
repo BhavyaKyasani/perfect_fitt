@@ -2,8 +2,12 @@
 let dbURI = 'mongodb://localhost/Loc8r';
 if (process.env.NODE_ENV === 'production') {
   dbURI = process.env.DB_URI;
+  if (!dbURI) {
+    console.error('ERROR: DB_URI environment variable not set for production environment.');
+    process.exit(1);
+  }
 }
-mongoose.connect(dbURI, {useNewUrlParser: true});
+mongoose.connect(dbURI);
 
 mongoose.connection.on('connected', () => {
  console.log(`Mongoose connected to ${dbURI}`);
