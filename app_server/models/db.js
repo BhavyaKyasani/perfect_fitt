@@ -1,9 +1,18 @@
  const mongoose = require('mongoose');
 let dbURI = 'mongodb://localhost/Loc8r';
 if (process.env.NODE_ENV === 'production') {
-  dbURI = 'mongodb+srv://kyasanibhavya23:<db_password>@cluster0.eo0lmbb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+  // Use environment variable if available, otherwise use a fallback that won't crash
+  if (process.env.MONGODB_URI) {
+    dbURI = process.env.MONGODB_URI;
+  } else {
+    console.log('No MONGODB_URI environment variable found, using local database...');
+    dbURI = 'mongodb://localhost/Loc8r';
+  }
 }
-mongoose.connect(dbURI);
+mongoose.connect(dbURI).catch(err => {
+  console.log('Database connection failed, but continuing with application...');
+  console.log('Error:', err.message);
+});
 
 mongoose.connection.on('connected', () => {
  console.log(`Mongoose connected to ${dbURI}`);
